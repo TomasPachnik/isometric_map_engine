@@ -1,8 +1,12 @@
 package core;
 
+import init.GlobalInit;
+import init.GlobalListeners;
+
 import java.io.IOException;
 
 import listeners.MouseMotionListenerImpl;
+import listeners.MousePositionRightPressed;
 import objects.World;
 import gui.DisplayMap;
 import gui.Renderer;
@@ -41,5 +45,20 @@ public class ObjectConfig {
     @Bean
     public SpriteBuffer spriteBuffer() throws IOException {
         return new SpriteBuffer();
+    }
+
+    @Bean
+    public MousePositionRightPressed mousePositionRightPressed() {
+        return new MousePositionRightPressed();
+    }
+
+    @Bean
+    public GlobalListeners globalListeners() {
+        return new GlobalListeners();
+    }
+
+    @Bean
+    public GlobalInit globalInit() {
+        return new GlobalInit();
     }
 }

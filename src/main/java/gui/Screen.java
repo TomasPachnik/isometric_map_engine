@@ -1,7 +1,9 @@
 package gui;
 
+import init.GlobalInit;
+import init.GlobalListeners;
+
 import java.awt.Color;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
@@ -17,8 +19,13 @@ public class Screen {
     private Renderer renderer;
     @Autowired
     private MouseMotionListener mouseListenerImpl;
+    @Autowired
+    private GlobalListeners globalListeners;
+    @Autowired
+    private GlobalInit globalInit;
 
     public void draw() {
+        globalInit.init();
         frame = new JFrame("map engine");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -38,6 +45,7 @@ public class Screen {
         renderer.setVisible(true);
         renderer.addMouseMotionListener(mouseListenerImpl);
         panel.add(renderer);
+        globalListeners.initListeners();
         frame.setVisible(true);
     }
 }
