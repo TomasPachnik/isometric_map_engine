@@ -12,6 +12,7 @@ public class World {
         for (int i = 0; i < TILES_PER_SIDE; i++) {
             for (int j = 0; j < TILES_PER_SIDE; j++) {
                 map[i][j] = new Tile();
+                map[i][j].setTerrain(new Grass());
             }
         }
     }

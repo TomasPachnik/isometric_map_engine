@@ -2,13 +2,10 @@ package listeners;
 
 import gui.Renderer;
 import init.GlobalInit;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D.Float;
-
 import javax.swing.SwingUtilities;
-
 import objects.World;
 import annotations.Autowired;
 import utils.Utils;
@@ -41,9 +38,7 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
         int x = (int) Math.ceil(colRow.getX());
         int y = (int) Math.ceil(colRow.getY());
         if (x >= 0 && x < TILES_PER_SIDE && y >= 0 && y < TILES_PER_SIDE) {
-            world.getMap()[x][y].setSelected(true);
-            renderer.repaint();
-           // System.out.println(x + ":" + y);
+            // renderer.repaint();
         }
     }
 

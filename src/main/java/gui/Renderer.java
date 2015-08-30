@@ -2,13 +2,10 @@ package gui;
 
 import static utils.Constants.TILES_PER_SIDE;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D.Float;
-
 import javax.swing.JComponent;
-
 import listeners.MousePositionRightPressed;
 import static utils.Constants.TILE_WIDTH;
 import static utils.Constants.TILE_HEIGHT;
@@ -37,17 +34,15 @@ public class Renderer extends JComponent {
         for (int i = middle_x - VISIBLE_TILES; i < middle_x + VISIBLE_TILES; i++) {
             for (int j = middle_y - VISIBLE_TILES; j < middle_y + VISIBLE_TILES; j++) {
                 if (i >= 0 && i < TILES_PER_SIDE && j >= 0 && j < TILES_PER_SIDE) {
-                    // for (int i = 0; i < TILES_PER_SIDE; i++) {
-                    // for (int j = 0; j < TILES_PER_SIDE; j++) {
-                    // {
                     Point position = Utils.getIsoXY(i, j);
                     Tile tile = world.getMap()[i][j];
                     x = position.x - TILE_HEIGHT + world.getOffset_x();
                     y = position.y - TILE_WIDTH + world.getOffset_y();
-                    if (tile.isSelected()) {
-                        g.drawImage(spriteBuffer.getGreyscale(), x, y, null);
-                    } else {
+
+                    switch (tile.getTerrain().getType()) {
+                    case GRASS:
                         g.drawImage(spriteBuffer.getTemplate(), x, y, null);
+                        break;
                     }
                 }
             }
@@ -56,8 +51,6 @@ public class Renderer extends JComponent {
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
         render(g);
     }
 
