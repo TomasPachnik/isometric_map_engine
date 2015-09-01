@@ -47,5 +47,7 @@ public class Screen {
         panel.add(renderer);
         globalListeners.initListeners();
         frame.setVisible(true);
+        renderer.init();
+        renderer.start();
     }
 }

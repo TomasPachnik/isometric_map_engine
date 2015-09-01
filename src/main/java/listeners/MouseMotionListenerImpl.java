@@ -28,7 +28,7 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
             world.setOffset_x(mousePositionRightPressed.getTemporaryOffsetX() + (e.getX() - mousePositionRightPressed.getX()));
             world.setOffset_y(mousePositionRightPressed.getTemporaryOffsetY() + (e.getY() - mousePositionRightPressed.getY()));
             globalInit.init();
-            renderer.repaint();
+            //renderer.repaint();
         }
     }
 
