@@ -10,6 +10,7 @@ import listeners.MousePositionRightPressed;
 import objects.World;
 import gui.DisplayMap;
 import gui.Renderer;
+import gui.RightPanel;
 import gui.Screen;
 import annotations.Bean;
 import annotations.Config;
@@ -30,6 +31,11 @@ public class ObjectConfig {
     @Bean
     public Renderer renderer() {
         return new Renderer();
+    }
+    
+    @Bean
+    public RightPanel rightPanel() {
+        return new RightPanel();
     }
 
     @Bean

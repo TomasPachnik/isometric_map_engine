@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import static utils.Constants.RENDERER_HEIGHT;
 import static utils.Constants.RENDERER_WIDTH;
-
 import annotations.Autowired;
 
 public class Screen {
@@ -23,6 +22,8 @@ public class Screen {
     private GlobalListeners globalListeners;
     @Autowired
     private GlobalInit globalInit;
+    @Autowired
+    private RightPanel rightPanel;
 
     public void draw() {
         globalInit.init();
@@ -37,10 +38,13 @@ public class Screen {
         panel.setLayout(null);
         panel.setBounds(0, 0, RENDERER_HEIGHT, 600);
         panel.setVisible(true);
-        Stats map1 = new Stats();
-        map1.setBounds(0, 0, RENDERER_HEIGHT, 30);
-        map1.setVisible(true);
-        panel.add(map1);
+        Stats stats = new Stats();
+        stats.setBounds(0, 0, RENDERER_HEIGHT, 30);
+        stats.setVisible(true);
+        panel.add(stats);
+        rightPanel.setBounds(RENDERER_HEIGHT - 150, 30, 150, RENDERER_WIDTH);
+        rightPanel.setVisible(true);
+        panel.add(rightPanel);
         renderer.setBounds(0, 30, RENDERER_HEIGHT, RENDERER_WIDTH);
         renderer.setVisible(true);
         renderer.addMouseMotionListener(mouseListenerImpl);
@@ -48,6 +52,6 @@ public class Screen {
         globalListeners.initListeners();
         frame.setVisible(true);
         renderer.init();
-        renderer.start();
+        rightPanel.init();
     }
 }

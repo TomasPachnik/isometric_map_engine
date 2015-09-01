@@ -2,10 +2,14 @@ package listeners;
 
 import gui.Renderer;
 import init.GlobalInit;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D.Float;
+
 import javax.swing.SwingUtilities;
+
+import objects.Tile;
 import objects.World;
 import annotations.Autowired;
 import utils.Utils;
@@ -28,7 +32,6 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
             world.setOffset_x(mousePositionRightPressed.getTemporaryOffsetX() + (e.getX() - mousePositionRightPressed.getX()));
             world.setOffset_y(mousePositionRightPressed.getTemporaryOffsetY() + (e.getY() - mousePositionRightPressed.getY()));
             globalInit.init();
-            //renderer.repaint();
         }
     }
 
@@ -38,8 +41,8 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
         int x = (int) Math.ceil(colRow.getX());
         int y = (int) Math.ceil(colRow.getY());
         if (x >= 0 && x < TILES_PER_SIDE && y >= 0 && y < TILES_PER_SIDE) {
-            // renderer.repaint();
+            Utils.getColRow(x, y);
+            Tile tile = world.getMap()[x][y];
         }
     }
-
 }
