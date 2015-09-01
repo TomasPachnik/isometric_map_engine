@@ -1,27 +1,15 @@
 package gui;
 
-import static utils.Constants.TILES_PER_SIDE;
-import static utils.Constants.TILE_HEIGHT;
-import static utils.Constants.TILE_WIDTH;
-import static utils.Constants.VISIBLE_TILES;
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.imageio.ImageIO;
-
 import listeners.MousePositionRightPressed;
 import objects.Tile;
 import objects.World;
@@ -35,6 +23,7 @@ public class RightPanel extends Canvas {
     private TimerTask renderTask;
     private Graphics2D graphics;
     private BufferedImage backgroundImage;
+    private BufferedImage image;
     @Autowired
     private World world;
     @Autowired
@@ -55,27 +44,26 @@ public class RightPanel extends Canvas {
     }
 
     private void render() {
-        graphics.drawImage(backgroundImage, null, 0, 0);
+        image = backgroundImage;
+        Graphics graphics3 = image.getGraphics();
+        graphics = (Graphics2D) strategy.getDrawGraphics();
+
         for (int i = 0; i < TILES_PER_SIDE; i++) {
             for (int j = 0; j < TILES_PER_SIDE; j++) {
                 Tile tile = world.getMap()[i][j];
                 Point minimapIsoXY = Utils.getMinimapIsoXY(i, j);
-                if (tile.getObject() != null) {
-                    switch (tile.getObject().getNumber()) {
-                    case 0:
-                        // graphics.setColor(Color.RED);
-                        // graphics.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 2, 2);
-                        break;
-                    case 1:
-                        graphics.setColor(Color.BLUE);
-                        graphics.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 2, 2);
-                        System.out.println(minimapIsoXY);
-                        break;
-                    }
+                switch (tile.getObject().getNumber()) {
+                case 0:
+                    break;
+                case 1:
+                    graphics3.setColor(Color.BLUE);
+                    graphics3.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 4, 4);
+                    break;
                 }
             }
         }
-
+        image = resizeImage(image);
+        graphics.drawImage(image, null, 0, 0);
         graphics.dispose();
         strategy.show();
         Toolkit.getDefaultToolkit().sync();
@@ -97,7 +85,8 @@ public class RightPanel extends Canvas {
                 }
             }
         }
-        return resizeImage(img);
+        graphics2.dispose();
+        return img;
     }
 
     private BufferedImage resizeImage(BufferedImage originalImage) {

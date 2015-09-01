@@ -43,6 +43,7 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
         if (x >= 0 && x < TILES_PER_SIDE && y >= 0 && y < TILES_PER_SIDE) {
             Utils.getColRow(x, y);
             Tile tile = world.getMap()[x][y];
+            tile.getObject().setNumber(1);
         }
     }
 }
