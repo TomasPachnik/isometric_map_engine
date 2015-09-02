@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -10,7 +9,6 @@ import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D.Float;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -68,13 +66,10 @@ public class RightPanel extends Canvas {
     }
 
     private void render(BufferedImage img) {
-        BufferedImage image = new BufferedImage(TILES_PER_SIDE * 2, TILES_PER_SIDE * 2, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics3 = (Graphics2D) image.createGraphics();
-        graphics3.setComposite(AlphaComposite.Clear);
-        graphics3.fillRect(0, 0, TILES_PER_SIDE * 2, TILES_PER_SIDE * 2);
-
+        BufferedImage image = img;
+        Graphics2D graphics3 = (Graphics2D) image.getGraphics();
         graphics = (Graphics2D) strategy.getDrawGraphics();
-        graphics3.setComposite(AlphaComposite.Src);
+
         for (int i = 0; i < TILES_PER_SIDE; i++) {
             for (int j = 0; j < TILES_PER_SIDE; j++) {
                 Tile tile = world.getMap()[i][j];
@@ -89,26 +84,15 @@ public class RightPanel extends Canvas {
                 }
             }
         }
-        graphics3.setColor(Color.WHITE);
         image = resizeImage(image);
         graphics3 = (Graphics2D) image.getGraphics();
+        graphics3.setColor(Color.WHITE);
         graphics3.drawRect(calculateWindowXPosition(), calculateWindowYPosition(), window_x, window_y);
-
-        graphics.drawImage(img, null, 0, 0);
         graphics.drawImage(image, null, 0, 0);
         graphics.dispose();
         strategy.show();
         Toolkit.getDefaultToolkit().sync();
 
-
-        File outputfile = new File("saved.png");
-        try {
-            ImageIO.write(image, "png", outputfile);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
     }
 
     private BufferedImage mapBackground() {
@@ -127,7 +111,7 @@ public class RightPanel extends Canvas {
             }
         }
         graphics2.dispose();
-        return resizeImage(img);
+        return img;
     }
 
     private BufferedImage resizeImage(BufferedImage originalImage) {
@@ -163,11 +147,12 @@ public class RightPanel extends Canvas {
     }
 
     private int calculateWindowXPosition() {
-        return (world.getOffset_x() / (TILES_PER_SIDE * TILE_WIDTH / MINIMAP_SIDE) * (-1)) + (MINIMAP_SIDE / 2);
+        System.out.println(world.getOffset_x());
+        return (int) ((((world.getOffset_x() * (-1)) / ratio_x) + (window_x *2)));
     }
 
     private int calculateWindowYPosition() {
-        return (world.getOffset_y() / (TILES_PER_SIDE * TILE_HEIGHT / MINIMAP_SIDE) * (-1));
+        return (int) (((world.getOffset_y() / ratio_y * (-1))) - window_y / 2);
     }
 
     private void calculateSides() {
