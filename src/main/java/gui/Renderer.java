@@ -18,6 +18,7 @@ import core.SpriteBuffer;
 import objects.Tile;
 import objects.World;
 import static utils.Constants.VISIBLE_TILES;
+import static utils.Constants.RENDER_MAP;
 import utils.Utils;
 import annotations.Autowired;
 
@@ -41,7 +42,7 @@ public class Renderer extends Canvas {
         start();
     }
 
-    public void render() {
+    private void render() {
         bkG = (Graphics2D) strategy.getDrawGraphics();
         bkG.fillRect(0, 0, getWidth(), getHeight());
 
@@ -77,7 +78,7 @@ public class Renderer extends Canvas {
 
     }
 
-    public void start() {
+    private void start() {
         if (renderTask != null) {
             renderTask.cancel();
         }
@@ -90,11 +91,6 @@ public class Renderer extends Canvas {
             }
         };
 
-        timer.schedule(renderTask, 0, 20);
+        timer.schedule(renderTask, 0, RENDER_MAP);
     }
-
-    protected void stop() {
-        renderTask.cancel();
-    }
-
 }

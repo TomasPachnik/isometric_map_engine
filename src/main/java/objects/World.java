@@ -4,8 +4,8 @@ import static utils.Constants.TILES_PER_SIDE;
 
 public class World {
     private Tile[][] map;
-    private int offset_x = 400;
-    private int offset_y = -400;
+    private int offset_x = 0;
+    private int offset_y = 0;
 
     public World() {
         setMap(new Tile[TILES_PER_SIDE][TILES_PER_SIDE]);
