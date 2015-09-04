@@ -28,4 +28,7 @@ public class Utils {
         return new Point2D.Float(col, row);
     }
 
+    public static int calculateProportion(int shortSide, int longSide, int value) {
+        return (int) (((double) value / longSide) * shortSide);
+    }
 }

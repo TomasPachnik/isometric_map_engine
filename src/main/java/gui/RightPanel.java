@@ -33,6 +33,7 @@ import static utils.Constants.TILE_HEIGHT;
 import static utils.Constants.TILE_WIDTH;
 import static utils.Constants.RENDERER_HEIGHT;
 import static utils.Constants.RENDERER_WIDTH;
+import static utils.Constants.MINIMAP_DISPLAY_SIDE;
 
 public class RightPanel extends Canvas {
     private BufferStrategy strategy;
@@ -147,20 +148,21 @@ public class RightPanel extends Canvas {
     }
 
     private int calculateWindowXPosition() {
-        System.out.println(world.getOffset_x());
-        return (int) ((((world.getOffset_x() * (-1)) / ratio_x) + (window_x *2)));
+        int number = (int) (((world.getOffset_x() - (TILE_WIDTH * TILES_PER_SIDE / 2)) * (-1)) / ratio_x);
+        System.out.println(Utils.calculateProportion(MINIMAP_DISPLAY_SIDE, TILES_PER_SIDE, number));
+        return Utils.calculateProportion(MINIMAP_DISPLAY_SIDE, MINIMAP_SIDE, number);
     }
 
     private int calculateWindowYPosition() {
-        return (int) (((world.getOffset_y() / ratio_y * (-1))) - window_y / 2);
+        int number = (int) ((world.getOffset_y() * (-1)) / ratio_y);
+        return Utils.calculateProportion(MINIMAP_DISPLAY_SIDE, MINIMAP_SIDE, number);
     }
 
     private void calculateSides() {
         ratio_x = TILES_PER_SIDE * TILE_WIDTH / MINIMAP_SIDE;
         ratio_y = TILES_PER_SIDE * TILE_HEIGHT / MINIMAP_SIDE;
-        window_x = (int) Math.round((RENDERER_HEIGHT - MINIMAP_SIDE) / ratio_x);
-        window_y = (int) Math.round(RENDERER_WIDTH / ratio_y);
-        System.out.println(window_x + ":" + window_y);
+        window_x = Utils.calculateProportion(RENDERER_HEIGHT - MINIMAP_DISPLAY_SIDE, TILES_PER_SIDE * TILE_WIDTH, MINIMAP_DISPLAY_SIDE);
+        window_y = Utils.calculateProportion(RENDERER_WIDTH, TILES_PER_SIDE * TILE_HEIGHT, MINIMAP_DISPLAY_SIDE);
     };
 
 }
