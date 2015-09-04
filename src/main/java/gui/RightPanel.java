@@ -73,16 +73,10 @@ public class RightPanel extends Canvas {
 
         for (int i = 0; i < TILES_PER_SIDE; i++) {
             for (int j = 0; j < TILES_PER_SIDE; j++) {
-                Tile tile = world.getMap()[i][j];
-                Point minimapIsoXY = Utils.getMinimapIsoXY(i, j);
-                switch (tile.getObject().getNumber()) {
-                case 0:
-                    break;
-                case 1:
-                    graphics3.setColor(Color.BLUE);
-                    graphics3.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 4, 4);
-                    break;
-                }
+                /*
+                 * Tile tile = world.getMap()[i][j]; Point minimapIsoXY = Utils.getMinimapIsoXY(i, j); switch (tile.getObject().getNumber()) { case 0: break;
+                 * case 1: graphics3.setColor(Color.BLUE); graphics3.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 4, 4); break; }
+                 */
             }
         }
         image = resizeImage(image);
@@ -149,7 +143,6 @@ public class RightPanel extends Canvas {
 
     private int calculateWindowXPosition() {
         int number = (int) (((world.getOffset_x() - (TILE_WIDTH * TILES_PER_SIDE / 2)) * (-1)) / ratio_x);
-        System.out.println(Utils.calculateProportion(MINIMAP_DISPLAY_SIDE, TILES_PER_SIDE, number));
         return Utils.calculateProportion(MINIMAP_DISPLAY_SIDE, MINIMAP_SIDE, number);
     }
 

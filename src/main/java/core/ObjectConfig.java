@@ -8,6 +8,7 @@ import java.io.IOException;
 import listeners.MouseMotionListenerImpl;
 import listeners.MousePositionRightPressed;
 import objects.World;
+import global.GlobalValues;
 import gui.DisplayMap;
 import gui.Renderer;
 import gui.RightPanel;
@@ -67,4 +68,10 @@ public class ObjectConfig {
     public GlobalInit globalInit() {
         return new GlobalInit();
     }
+    
+    @Bean
+    public GlobalValues globalValues() {
+        return new GlobalValues();
+    }
+    
 }

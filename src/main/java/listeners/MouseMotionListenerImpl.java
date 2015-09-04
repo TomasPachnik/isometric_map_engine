@@ -1,5 +1,6 @@
 package listeners;
 
+import global.GlobalValues;
 import gui.Renderer;
 import init.GlobalInit;
 
@@ -25,6 +26,8 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
     private MousePositionRightPressed mousePositionRightPressed;
     @Autowired
     private GlobalInit globalInit;
+    @Autowired
+    private GlobalValues globalValues;
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -42,8 +45,8 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
         int y = (int) Math.ceil(colRow.getY());
         if (x >= 0 && x < TILES_PER_SIDE && y >= 0 && y < TILES_PER_SIDE) {
             Utils.getColRow(x, y);
-            Tile tile = world.getMap()[x][y];
-            tile.getObject().setNumber(1);
+            globalValues.setCurrentlySelectedTile_x(x);
+            globalValues.setCurrentlySelectedTile_y(y);
         }
     }
 }

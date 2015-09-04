@@ -1,19 +1,19 @@
 package objects;
 
-import enums.Type;
+import enums.TerrainEnum;
 
 public abstract class Terrain {
-    private Type type;
+    private TerrainEnum type;
 
-    public Terrain(Type type) {
+    public Terrain(TerrainEnum type) {
         this.setType(type);
     }
 
-    public Type getType() {
+    public TerrainEnum getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(TerrainEnum type) {
         this.type = type;
     }
 }

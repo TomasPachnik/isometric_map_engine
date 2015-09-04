@@ -1,11 +1,11 @@
 package objects;
 
-import enums.Type;
+import enums.TerrainEnum;
 
 public class Grass extends Terrain {
 
     public Grass() {
-        super(Type.GRASS);
+        super(TerrainEnum.GRASS);
     }
 
 }

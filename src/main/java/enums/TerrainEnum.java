@@ -1,4 +1,4 @@
 package enums;
-public enum Type {
+public enum TerrainEnum {
     GRASS, FOREST, MOUNTAINS
 }

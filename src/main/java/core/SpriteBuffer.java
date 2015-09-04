@@ -7,12 +7,12 @@ import javax.imageio.ImageIO;
 
 public class SpriteBuffer {
     private BufferedImage template;
-    private BufferedImage greyscale;
+    private BufferedImage redTemplate;
     private BufferedImage forest;
 
     public SpriteBuffer() throws IOException {
         template = ImageIO.read(getClass().getClassLoader().getResourceAsStream("template.png"));
-        greyscale = ImageIO.read(getClass().getClassLoader().getResourceAsStream("greyscale.png"));
+        redTemplate = (ImageIO.read(getClass().getClassLoader().getResourceAsStream("redTemplate.png")));
         forest = (ImageIO.read(getClass().getClassLoader().getResourceAsStream("sprites/forest.png")));
     }
 
@@ -20,16 +20,12 @@ public class SpriteBuffer {
         return template;
     }
 
-    public BufferedImage getGreyscale() {
-        return greyscale;
-    }
-
     public BufferedImage getForest() {
         return forest;
     }
 
-    public void setForest(BufferedImage forest) {
-        this.forest = forest;
+    public BufferedImage getRedTemplate() {
+        return redTemplate;
     }
 
 }
