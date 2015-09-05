@@ -1,6 +1,7 @@
 package objects;
 
 import enums.BuildingEnum;
+import enums.ObjectType;
 
 public class Building extends GameObject {
     private BuildingEnum building;
@@ -8,7 +9,7 @@ public class Building extends GameObject {
     private int length_y;
 
     public Building(BuildingEnum building, int length_x, int length_y) {
-        super();
+        super(ObjectType.BUILDING);
         this.building = building;
         this.length_x = length_x;
         this.length_y = length_y;

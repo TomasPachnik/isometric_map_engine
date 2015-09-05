@@ -7,7 +7,6 @@ import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferStrategy;
 import java.util.Timer;
@@ -17,6 +16,8 @@ import listeners.MousePositionRightPressed;
 import static utils.Constants.TILE_WIDTH;
 import static utils.Constants.TILE_HEIGHT;
 import core.SpriteBuffer;
+import objects.Building;
+import objects.GameObject;
 import objects.Terrain;
 import objects.Tile;
 import objects.World;
@@ -59,18 +60,32 @@ public class Renderer extends Canvas {
         int middle_x = (int) Math.ceil(colRow.getX());
         int middle_y = (int) Math.ceil(colRow.getY());
 
-        for (int i = middle_x - VISIBLE_TILES; i < middle_x + VISIBLE_TILES; i++) {
-            for (int j = middle_y - VISIBLE_TILES; j < middle_y + VISIBLE_TILES; j++) {
+        for (int j = middle_y - VISIBLE_TILES; j < middle_y + VISIBLE_TILES; j++) {
+            for (int i = middle_x - VISIBLE_TILES; i < middle_x + VISIBLE_TILES; i++) {
                 if (i >= 0 && i < TILES_PER_SIDE && j >= 0 && j < TILES_PER_SIDE) {
                     Point position = Utils.getIsoXY(i, j);
                     Tile tile = world.getMap()[i][j];
                     x = position.x - TILE_HEIGHT + offset_x;
                     y = position.y - TILE_WIDTH + offset_y;
 
-                    switch (tile.getTerrain().getType()) {
-                    case GRASS:
-                        bkG.drawImage(spriteBuffer.getTemplate(), x, y, null);
-                        break;
+                    if (tile.getObject() != null) {
+                        switch (tile.getObject().getType()) {
+                        case BUILDING:
+                            switch (((Building) tile.getObject()).getBuilding()) {
+                            case CASTLE:
+                                bkG.drawImage(spriteBuffer.getCastle(), x - TILE_HEIGHT, y - TILE_HEIGHT, null);
+                                break;
+                            }
+                            break;
+
+                        }
+                    } else {
+                        switch (tile.getTerrain().getType()) {
+                        case GRASS:
+                            bkG.drawImage(spriteBuffer.getTemplate(), x, y, null);
+                            break;
+
+                        }
                     }
                 }
             }
@@ -82,22 +97,32 @@ public class Renderer extends Canvas {
             int max_x = globalValues.getCurrentlySelectedTile_x() + globalValues.getConstructBuilding().getLength_x();
             int current_y = globalValues.getCurrentlySelectedTile_y();
             int max_y = globalValues.getCurrentlySelectedTile_y() + globalValues.getConstructBuilding().getLength_y();
-            if (max_x <= TILES_PER_SIDE && max_y <= TILES_PER_SIDE) {
+
+            boolean canBuild = true;
+            for (int j = current_y; j < max_y; j++) {
                 for (int i = current_x; i < max_x; i++) {
-                    for (int j = current_y; j < max_y; j++) {
-                        Point position = Utils.getIsoXY(i, j);
-                        x = position.x - TILE_HEIGHT + offset_x;
-                        y = position.y - TILE_WIDTH + offset_y;
+                    Point position = Utils.getIsoXY(i, j);
+                    x = position.x - TILE_HEIGHT + offset_x;
+                    y = position.y - TILE_WIDTH + offset_y;
+                    if (i >= TILES_PER_SIDE || j >= TILES_PER_SIDE) {
                         bkG.drawImage(spriteBuffer.getRedTemplate(), x, y, null);
+                        canBuild = false;
+                    } else {
+                        GameObject object = world.getMap()[i][j].getObject();
+                        if (object == null) {
+                            bkG.drawImage(spriteBuffer.getGreenTemplate(), x, y, null);
+                        } else {
+                            bkG.drawImage(spriteBuffer.getRedTemplate(), x, y, null);
+                            canBuild = false;
+                        }
                     }
                 }
             }
+            globalValues.setCanBuild(canBuild);
         } else {
             Point position = Utils.getIsoXY(globalValues.getCurrentlySelectedTile_x(), globalValues.getCurrentlySelectedTile_y());
             x = position.x - TILE_HEIGHT + offset_x;
             y = position.y - TILE_WIDTH + offset_y;
-            Terrain terrain = world.getMap()[globalValues.getCurrentlySelectedTile_x()][globalValues.getCurrentlySelectedTile_y()].getTerrain();
-            System.out.println(terrain.getType());
         }
 
         bkG.dispose();

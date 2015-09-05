@@ -1,26 +1,23 @@
 package gui;
 
-import java.awt.BasicStroke;
+import global.GlobalValues;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Stroke;
 import java.awt.Toolkit;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.imageio.ImageIO;
-
+import listeners.MouseDataObject;
 import listeners.MousePositionRightPressed;
+import objects.Castle;
 import objects.Tile;
 import objects.World;
 import utils.Utils;
@@ -50,7 +47,9 @@ public class RightPanel extends Canvas {
     @Autowired
     private SpriteBuffer spriteBuffer;
     @Autowired
-    private MousePositionRightPressed mousePositionRightPressed;
+    private MouseDataObject mouseDataObject;
+    @Autowired
+    private GlobalValues globalValues;
 
     public void init() {
         timer = new Timer();
@@ -73,21 +72,38 @@ public class RightPanel extends Canvas {
 
         for (int i = 0; i < TILES_PER_SIDE; i++) {
             for (int j = 0; j < TILES_PER_SIDE; j++) {
-                /*
-                 * Tile tile = world.getMap()[i][j]; Point minimapIsoXY = Utils.getMinimapIsoXY(i, j); switch (tile.getObject().getNumber()) { case 0: break;
-                 * case 1: graphics3.setColor(Color.BLUE); graphics3.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 4, 4); break; }
-                 */
+                Tile tile = world.getMap()[i][j];
+                if (tile.getObject() != null) {
+                    Point minimapIsoXY = Utils.getMinimapIsoXY(i, j);
+                    graphics3.setColor(Color.BLUE);
+                    graphics3.fillRect(minimapIsoXY.x + TILES_PER_SIDE, minimapIsoXY.y, 4, 4);
+                }
             }
         }
         image = resizeImage(image);
         graphics3 = (Graphics2D) image.getGraphics();
         graphics3.setColor(Color.WHITE);
         graphics3.drawRect(calculateWindowXPosition(), calculateWindowYPosition(), window_x, window_y);
+        drawBuildingSelection(graphics);
         graphics.drawImage(image, null, 0, 0);
-        graphics.dispose();
         strategy.show();
         Toolkit.getDefaultToolkit().sync();
+    }
 
+    // TODO move to own new class - RightPanelLogic
+    public void leftClick(int x, int y) {
+
+        if (x < 64 && y > 150 && y < 214) {
+            globalValues.setConstructBuilding(new Castle());
+        } else {
+            globalValues.setConstructBuilding(null);
+        }
+
+    }
+
+    private void drawBuildingSelection(Graphics2D graphics) {
+        graphics.drawImage(spriteBuffer.getCastle(), null, 0, MINIMAP_DISPLAY_SIDE);
+        graphics.drawRect(0, MINIMAP_DISPLAY_SIDE, 64, 64);
     }
 
     private BufferedImage mapBackground() {

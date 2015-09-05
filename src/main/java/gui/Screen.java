@@ -2,11 +2,17 @@ package gui;
 
 import init.GlobalInit;
 import init.GlobalListeners;
+
 import java.awt.Color;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import listeners.RendererMouseListener;
+import listeners.RightPanelMouseListener;
 import static utils.Constants.RENDERER_HEIGHT;
 import static utils.Constants.RENDERER_WIDTH;
 import annotations.Autowired;
@@ -17,15 +23,18 @@ public class Screen {
     @Autowired
     private Renderer renderer;
     @Autowired
-    private MouseMotionListener mouseListenerImpl;
+    private RendererMouseListener rendererMouseListener;
     @Autowired
     private GlobalListeners globalListeners;
     @Autowired
     private GlobalInit globalInit;
     @Autowired
     private RightPanel rightPanel;
+    @Autowired
+    private RightPanelMouseListener rightPanelMouseListener;
 
     public void draw() {
+        System.out.println(globalInit);
         globalInit.init();
         frame = new JFrame("map engine");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -47,7 +56,10 @@ public class Screen {
         panel.add(rightPanel);
         renderer.setBounds(0, 30, RENDERER_HEIGHT, RENDERER_WIDTH);
         renderer.setVisible(true);
-        renderer.addMouseMotionListener(mouseListenerImpl);
+        renderer.addMouseMotionListener(rendererMouseListener);
+        renderer.addMouseListener(rendererMouseListener);
+        rightPanel.addMouseMotionListener(rightPanelMouseListener);
+        rightPanel.addMouseListener(rightPanelMouseListener);
         panel.add(renderer);
         globalListeners.initListeners();
         frame.setVisible(true);

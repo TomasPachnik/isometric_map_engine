@@ -1,13 +1,13 @@
 package global;
 
 import objects.Building;
-import objects.Castle;
 
 public class GlobalValues {
 
     private int currentlySelectedTile_x;
     private int currentlySelectedTile_y;
-    private Building constructBuilding = new Castle();
+    private Building constructBuilding;
+    private boolean canBuild;
 
     public int getCurrentlySelectedTile_x() {
         return currentlySelectedTile_x;
@@ -31,6 +31,14 @@ public class GlobalValues {
 
     public void setConstructBuilding(Building constructBuilding) {
         this.constructBuilding = constructBuilding;
+    }
+
+    public boolean isCanBuild() {
+        return canBuild;
+    }
+
+    public void setCanBuild(boolean canBuild) {
+        this.canBuild = canBuild;
     }
 
 }

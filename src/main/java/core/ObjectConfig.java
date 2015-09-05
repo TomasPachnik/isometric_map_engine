@@ -5,8 +5,11 @@ import init.GlobalListeners;
 
 import java.io.IOException;
 
-import listeners.MouseMotionListenerImpl;
+import listeners.MouseDataObject;
+import listeners.RendererMouseListener;
 import listeners.MousePositionRightPressed;
+import listeners.RightPanelMouseListener;
+import logic.RendererLogic;
 import objects.World;
 import global.GlobalValues;
 import gui.DisplayMap;
@@ -45,8 +48,8 @@ public class ObjectConfig {
     }
 
     @Bean
-    public MouseMotionListenerImpl mouseListenerImpl() {
-        return new MouseMotionListenerImpl();
+    public RendererMouseListener rendererMouseListener() {
+        return new RendererMouseListener();
     }
 
     @Bean
@@ -72,6 +75,21 @@ public class ObjectConfig {
     @Bean
     public GlobalValues globalValues() {
         return new GlobalValues();
+    }
+    
+    @Bean
+    public MouseDataObject mouseDataObject() {
+        return new MouseDataObject();
+    }
+    
+    @Bean
+    public RightPanelMouseListener rightPanelMouseListener(){
+        return new RightPanelMouseListener();
+    }
+    
+    @Bean
+    public RendererLogic rendererLogic(){
+        return new RendererLogic();
     }
     
 }
